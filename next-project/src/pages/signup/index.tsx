@@ -2,12 +2,23 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Container, Typography, Paper } from "@mui/material";
 import { useRouter } from "next/router";
+import axios, { AxiosResponse } from "axios";
 
 interface SignupValues {
   email:string;
   username:string;
   password:string;
   phoneNumber:string;
+}
+interface ApiResponse {
+  data: {
+    id: string;
+    name: string;
+    email: string;
+    password: string;
+    updated_at: string;
+    created_at: string;
+  };
 }
 
 const SignupPage = () => {
@@ -30,10 +41,22 @@ const SignupPage = () => {
         .matches(/^\d{12}$/, "Invalid phone number")
         .required(),
     }),
-    onSubmit: (values) => {
-      console.log(values);
-      alert("Loginsucces redirecting to login page");
-      navigate.push("/Login");
+    onSubmit: async (values) => {
+      try {
+        const response: AxiosResponse <ApiResponse> = await axios.post(
+          "https://mock-api.arikmpt.com/api/user/register",
+          values
+        );
+        const userData = response.data.data;
+
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        alert("Signup successful. Redirecting to login page");
+        navigate.push("/login");
+      } catch (error) {
+        alert('signup failure')
+        console.log(error)
+      }
     },
   });
   return (
