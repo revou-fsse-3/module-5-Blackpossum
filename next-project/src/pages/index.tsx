@@ -54,7 +54,7 @@ const Dashboard = () => {
       alert("Please log in to your account");
       navigate.push("/");
     }
-  }, [fetchingArticles, navigate, page]); // Removed searchQuery from dependencies
+  }, [page]); // Removed searchQuery from dependencies
 
   const handleSearchClick = () => {
     if (localStorage.getItem("token")) {
