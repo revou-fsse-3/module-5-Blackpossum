@@ -52,7 +52,7 @@ const Dashboard = () => {
       fetchingArticles();
     } else {
       alert("Please log in to your account");
-      // navigate.push("/");
+      navigate.push("/Login");
     }
   }, [page]); // Removed searchQuery from dependencies
 
@@ -62,7 +62,7 @@ const Dashboard = () => {
       fetchingArticles();
     } else {
       // alert("Please log in to your account");
-      // navigate.push("/login");
+      navigate.push("/Login");
     }
   };
 

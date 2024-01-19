@@ -47,7 +47,7 @@ const Loginpage = () => {
           className="my-2 mx-2 h-full rounded-xl border-4 object-cover"
         />
       </div>
-        <div className="my-20 w-[800px] h-[400px] mx-auto bg-white p-8 rounded-lg shadow-md">
+        <div className=" flex flex-col my-20 w-[800px] h-fit-content mx-auto bg-white p-8 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold mb-4">Log In</h2>
           <Formik
             initialValues={{ email: "", password: "" }}

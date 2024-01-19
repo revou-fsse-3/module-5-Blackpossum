@@ -28,7 +28,7 @@ const Navbar = ({ onLogout }: NavbarProps) => {
           ) : (
             <>
               <Link
-                href="/login"
+                href="/Login"
                 className="text-white hover:text-gray-300"
               >
                 Login
