@@ -51,7 +51,7 @@ const Dashboard = () => {
     if (localStorage.getItem("token")) {
       fetchingArticles();
     } else {
-      alert("Please log in to your account");
+      // alert("Please log in to your account");
       navigate.push("/");
     }
   }, [page]); // Removed searchQuery from dependencies
@@ -61,7 +61,7 @@ const Dashboard = () => {
       setPage(1);
       fetchingArticles();
     } else {
-      alert("Please log in to your account");
+      // alert("Please log in to your account");
       navigate.push("/login");
     }
   };
