@@ -3,6 +3,7 @@ import axios from "axios";
 import { Container, Pagination, TextField, Button } from "@mui/material";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { ImageProps } from "next/image";
 
 
 // Define your types
@@ -26,7 +27,6 @@ const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState("trending");
   const navigate = useRouter();
   const pageSize = 10;
-
   const [articles, setArticles] = useState<Article[]>([]);
 
   const fetchingArticles = async () => {
@@ -66,6 +66,7 @@ const Dashboard = () => {
     }
   };
 
+
   return (
     <div>
       <Container>
@@ -77,18 +78,22 @@ const Dashboard = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="mb-4 w-[500px]"
           />
-          <Button className="bg-blue-500 w-[80px] h-[55px] rounded-xl mx-2 border-4" variant="contained" color="success" onClick={handleSearchClick}>
-            Search
-          </Button>
+          <div>
+            <Button className="bg-blue-500 w-[80px] h-[55px] rounded-xl mx-2 border-4" variant="contained" color="success" onClick={handleSearchClick}>
+              Search
+            </Button>
+          </div>
         </div>
         {articles?.map((article, index) => (
-          <div key={index} className="my-4 p-6 bg-gray-100 rounded shadow-md">
+          <div key={index} className="my-4 p-6 bg-gray-300 rounded-xl shadow-md">
             <h2 className="text-xl font-semibold mb-2">{article.title}</h2>
-            <Image src={article.urlToImage} width={400} height={500} alt="article-image" />
+            <img src={article.urlToImage} alt="article-image" />
+            {/* <Image src={article?.urlToImage} width={400} height={500} alt="article-image" /> */}
             <p className="text-sm text-gray-600 mb-2">
               {article.author} - {new Date(article.publishedAt).toDateString()}
             </p>
             <p className="text-gray-800">{article.description}</p>
+            <Button className="bg-blue-500 mt-4 rounded-xl mx-2 border-4" variant="contained" color="success" >go to article</Button>
           </div>
         ))}
         <Pagination
