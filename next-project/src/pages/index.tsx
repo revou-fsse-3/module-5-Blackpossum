@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Pagination, TextField, Button } from "@mui/material";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import { ImageProps } from "next/image";
 
 
 // Define your types
@@ -21,7 +19,7 @@ interface ApiResponse {
 }
 
 const Dashboard = () => {
-  // const apiKey = import.meta.env.VITE_NEWS_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
   const token = global?.localStorage?.getItem("token") || "";
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("trending");
@@ -32,12 +30,7 @@ const Dashboard = () => {
   const fetchingArticles = async () => {
     try {
       const res = await axios.get<ApiResponse>(
-        `https://newsapi.org/v2/everything?q=${searchQuery}&apiKey=6186b9b3520c4bc0b4e53f7246628ac7&page=${page}&pageSize=${pageSize}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `https://newsapi.org/v2/everything?q=${searchQuery}&apiKey=${apiKey}&page=${page}&pageSize=${pageSize}`,
       );
 
       const results = res.data.articles;
@@ -54,7 +47,7 @@ const Dashboard = () => {
       alert("Please log in to your account");
       navigate.push("/Login");
     }
-  }, [page]); // Removed searchQuery from dependencies
+  }, [searchQuery]); // Removed searchQuery from dependencies
 
   const handleSearchClick = () => {
     if (localStorage.getItem("token")) {
@@ -107,5 +100,28 @@ const Dashboard = () => {
     </div>
   );
 };
+
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+  try {
+    const res = await axios.get<ApiResponse>(
+      `https://newsapi.org/v2/everything?q=${context.query.searchQuery}&apiKey=${apiKey}&page=${context.query.page}&pageSize=${context.query.pageSize}`,
+    );
+
+    const results = res.data.articles;
+    console.log(results)
+
+    return{
+      props:{
+        articles: results
+      },
+    } 
+  }catch (error){
+    console.error("Error fetching articles:", error);
+  }
+};
+
+
 
 export default Dashboard;

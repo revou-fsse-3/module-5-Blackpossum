@@ -1,12 +1,16 @@
 // Navbar.tsx
 import Link from "next/link";
+import { useRouter } from "next/router";
 
-interface NavbarProps {
-  onLogout?: () => void;
-}
+const Navbar = () => {
+  const isLoggedIn = global?.localStorage?.getItem("token")
 
-const Navbar = ({ onLogout }: NavbarProps) => {
-  const isLoggedIn = global?.localStorage?.getItem("token") || "";
+  const navigate=useRouter();
+
+  const onLogout = () =>{
+    navigate.push('/Login')
+    global?.localStorage?.removeItem('token')
+  }
 
   return (
     <nav className="bg-gray-800 p-4">
@@ -27,16 +31,10 @@ const Navbar = ({ onLogout }: NavbarProps) => {
             </button>
           ) : (
             <>
-              <Link
-                href="/Login"
-                className="text-white hover:text-gray-300"
-              >
+              <Link href="/Login" className="text-white hover:text-gray-300">
                 Login
               </Link>
-              <Link
-                href="/signup"
-                className="text-white hover:text-gray-300"
-              >
+              <Link href="/signup" className="text-white hover:text-gray-300">
                 Signup
               </Link>
             </>
