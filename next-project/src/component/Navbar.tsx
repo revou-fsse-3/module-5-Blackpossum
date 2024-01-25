@@ -3,9 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
 
-interface NavbarProps {
-  Navbar: ReactNode
-}
 
 const Navbar= () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
