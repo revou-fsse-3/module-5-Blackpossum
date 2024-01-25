@@ -22,7 +22,9 @@ const Navbar= () => {
   return (
     <nav className="bg-gray-800 p-4">
       <div className="container mx-auto flex items-center justify-between">
-        <div className="text-white font-bold text-xl">News App</div>
+        <div>
+          <h1 className="text-white font-bold text-xl">News App</h1>
+        </div>
         <div className="space-x-4">
           {isLoggedIn ?(
         <div className="space-x-4">
