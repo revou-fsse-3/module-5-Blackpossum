@@ -3,6 +3,8 @@ import axios from "axios";
 import { Container, Pagination, TextField, Button } from "@mui/material";
 import { useRouter } from "next/router";
 
+// import { GetServerSidePropsContext } from "next";
+
 
 // Define your types
 interface Article {
@@ -20,7 +22,7 @@ interface ApiResponse {
 
 const Dashboard = () => {
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-  const token = global?.localStorage?.getItem("token") || "";
+  const token = global?.localStorage?.getItem("token");
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("trending");
   const navigate = useRouter();
@@ -41,16 +43,16 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (token) {
       fetchingArticles();
     } else {
       alert("Please log in to your account");
       navigate.push("/Login");
     }
-  }, [searchQuery]); // Removed searchQuery from dependencies
+  }, [navigate, page, token]); // Removed searchQuery from dependencies
 
   const handleSearchClick = () => {
-    if (localStorage.getItem("token")) {
+    if (token) {
       setPage(1);
       fetchingArticles();
     } else {
@@ -61,7 +63,6 @@ const Dashboard = () => {
 
 
   return (
-    <div>
       <Container>
         <div className="flex flex-row my-10 justify-center">
           <TextField
@@ -86,9 +87,10 @@ const Dashboard = () => {
               {article.author} - {new Date(article.publishedAt).toDateString()}
             </p>
             <p className="text-gray-800">{article.description}</p>
-            <Button className="bg-blue-500 mt-4 rounded-xl mx-2 border-4" variant="contained" color="success" >go to article</Button>
+            <Button className="bg-blue-500 mt-4 rounded-xl mx-2 border-4" href={article.url} variant="contained" color="success" >go to article</Button>
           </div>
         ))}
+        
         <Pagination
           count={5}
           page={page}
@@ -97,30 +99,9 @@ const Dashboard = () => {
           className="mt-4 flex justify-center"
         />
       </Container>
-    </div>
   );
 };
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-
-  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
-  try {
-    const res = await axios.get<ApiResponse>(
-      `https://newsapi.org/v2/everything?q=${context.query.searchQuery}&apiKey=${apiKey}&page=${context.query.page}&pageSize=${context.query.pageSize}`,
-    );
-
-    const results = res.data.articles;
-    console.log(results)
-
-    return{
-      props:{
-        articles: results
-      },
-    } 
-  }catch (error){
-    console.error("Error fetching articles:", error);
-  }
-};
 
 
 
