@@ -1,11 +1,9 @@
 // Navbar.tsx
-import { useAuth } from "@/context/AuthContext,";
+import { useAuth } from "../../context/AuthContext";
 import Link from "next/link";
 
-
-
-const Navbar= () => {
-  const {isLoggedIn, onLogout}=useAuth()
+const Navbar = () => {
+  const { isLoggedIn, onLogout } = useAuth();
 
   return (
     <nav className="bg-gray-800 p-4">
@@ -14,17 +12,18 @@ const Navbar= () => {
           <h1 className="text-white font-bold text-xl">News App</h1>
         </div>
         <div className="space-x-4">
-          {isLoggedIn ?(
-        <div className="space-x-4">
-          <Link href="/"className="text-white hover:text-gray-300">
-            Dashboard
-          </Link>
-            <button
-              className="text-white hover:text-gray-300"
-              onClick={onLogout}>
+          {isLoggedIn ? (
+            <div className="space-x-4">
+              <Link href="/" className="text-white hover:text-gray-300">
+                Dashboard
+              </Link>
+              <button
+                className="text-white hover:text-gray-300"
+                onClick={onLogout}
+              >
                 Logout
-            </button>
-        </div>
+              </button>
+            </div>
           ) : (
             <div>
               <Link href="/Login" className="text-white hover:text-gray-300">

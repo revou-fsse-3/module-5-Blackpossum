@@ -6,9 +6,10 @@ interface AuthContextProps {
   onLogout: () => void;
 }
 
+
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useRouter();
 
@@ -42,3 +43,5 @@ export const useAuth = (): AuthContextProps => {
   }
   return context;
 };
+
+export default AuthProvider;
