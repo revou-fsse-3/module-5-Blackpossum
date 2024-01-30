@@ -1,23 +1,11 @@
 // Navbar.tsx
+import { useAuth } from "@/context/AuthContext,";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { ReactNode, useEffect, useState } from "react";
+
 
 
 const Navbar= () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useRouter();
-
-  useEffect(() => {
-    // Check if the token is present in localStorage
-    const token = global?.localStorage?.getItem('token');
-    setIsLoggedIn(!!token); // Set isLoggedIn based on the presence of the token
-  }, []); // The empty dependency array ensures that this effect runs only once, similar to componentDidMount
-
-  const onLogout = () => {
-    navigate.push('/Login');
-    global?.localStorage?.removeItem('token');
-  };
+  const {isLoggedIn, onLogout}=useAuth()
 
   return (
     <nav className="bg-gray-800 p-4">

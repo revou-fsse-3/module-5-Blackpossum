@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Pagination, TextField, Button } from "@mui/material";
+import Button from "@/component/Button/Button";
+import Asside from "@/component/Asside/Asside";
+import NavigateTo from "@/component/Navigate/NavigateTo";
+import { Container, Pagination, TextField } from "@mui/material";
 import { useRouter } from "next/router";
 
 // import { GetServerSidePropsContext } from "next";
@@ -62,7 +65,11 @@ const Dashboard = () => {
   };
 
 
+
+
   return (
+    <div className="flex flex-row-2">
+      <Asside/> 
       <Container>
         <div className="flex flex-row my-10 justify-center">
           <TextField
@@ -73,7 +80,7 @@ const Dashboard = () => {
             className="mb-4 w-[500px]"
           />
           <div>
-            <Button className="bg-blue-500 w-[80px] h-[55px] rounded-xl mx-2 border-4" variant="contained" color="success" onClick={handleSearchClick}>
+            <Button className="bg-blue-500 w-[80px] h-[55px] rounded-xl mx-2 border-4" onClick={handleSearchClick}>
               Search
             </Button>
           </div>
@@ -86,8 +93,8 @@ const Dashboard = () => {
             <p className="text-sm text-gray-600 mb-2">
               {article.author} - {new Date(article.publishedAt).toDateString()}
             </p>
-            <p className="text-gray-800">{article.description}</p>
-            <Button className="bg-blue-500 mt-4 rounded-xl mx-2 border-4" href={article.url} variant="contained" color="success" >go to article</Button>
+            <p className="text-gray-800 pb-5">{article.description}</p>
+            <NavigateTo href={article.url} target="_blank" className="bg-blue-500 border-4 rounded-xl p-1.5">go to article</NavigateTo>
           </div>
         ))}
         
@@ -99,6 +106,7 @@ const Dashboard = () => {
           className="mt-4 flex justify-center"
         />
       </Container>
+    </div>
   );
 };
 
